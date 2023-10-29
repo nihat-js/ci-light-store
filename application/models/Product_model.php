@@ -8,9 +8,15 @@ class Product_model extends CI_Model
 
   private $table_name = "avh_products"; 
 
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->database();
+  }
+
   public function getAll()
   {
-    $query = $this->db->get($this->table_name, );
+    $query = $this->db->get($this->table_name);
     return $query->result();
   }
 

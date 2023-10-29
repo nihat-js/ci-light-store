@@ -2,22 +2,24 @@
 class Cart_model extends CI_Model
 {
 
-  public $date;
-  public $user_id;
-  public $product_id;
-  public $quantity;
+  // public $date;
+  // public $user_id;
+  // public $product_id;
+  // public $quantity;
 
-  private $table_name = "avh_products";
+  private $table_name = "avh_cart";
 
-  public function getAll()
+  public function getUserCart($user_id)
   {
-    $query = $this->db->get($this->table_name,);
+    $this->db->select(["cart_id","product_id","quantity","user_id", ])
+    ->where("user_id", $user_id)
+    ->join("avh_products","avh_cart.product_id = avh_products.product_id ","left");
+
+    $query = $this->db->get($this->table_name);
     return $query->result();
   }
 
-  public function getUserCart(){
-
-  }
+  
 
   public function  updateQuantity($number=+1){
 
