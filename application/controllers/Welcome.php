@@ -19,6 +19,16 @@ class Welcome extends CI_Controller
     $data['products'] = $this->Product_model->getAll();
     $data['cart'] = $this->Cart_model->getUserCart($user_id);
     $this->load->view('home',$data);
+    
+  }
+
+  public function test(){
+    
+  }
+
+  public function add_to_cart_action(){
+    $product_id = $this->input->post("productId");
+    $this->Cart_model->addToCart(1,$product_id);
   }
 
 }

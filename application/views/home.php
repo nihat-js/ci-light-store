@@ -67,7 +67,7 @@
             <td> <?= $product->title ?> </td>
             <td> <?= $product->quantity ?> </td>
             <td> <?= $product->price ?> </td>
-            <td> <button class="btn btn-primary"> Add To Cart </button> </td>
+            <td> <button class="btn btn-primary" onclick="addToCart(<?= $product->product_id ?>) "> Add To Cart  </button> </td>
           <tr>
           <?php endforeach;   ?>
 
@@ -112,6 +112,17 @@
 
   </div>
 
+  <script>
+    function addToCart(productId){
+      const baseURL = "/php-apps/light-store/"
+      const fd = new FormData()
+      fd.append('productId',productId)
+      fetch(baseURL+"add_to_cart_action",{
+        method : "post",
+        body : fd
+      }).then(res => console.log(res))
+    }
+  </script>
 
 
 </body>

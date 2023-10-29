@@ -21,9 +21,30 @@ class Cart_model extends CI_Model
   }
 
   
+  public function addToCart($user_id,$product_id,$quantity=1){
+    $data = [
+      "user_id" =>$user_id,
+      "product_id" => $product_id,
+      "quantity" =>$quantity
+    ];
+    $result = $this->db->select("*")
+    ->where("user_id",$user_id)
+    ->where("product_id",$product_id)
+    ->limit(1)
+    ->get($this->table_cart)->result();
 
-  // public function  updateQuantity($user_id,$cart_id,$number=+1){
+    if (count($result) > 0){
+      return false;
+    }
+    $this->db->insert($this->table_cart,$data);
+  }
 
-  //   $this->db->select("*")->wher("")
+  // public function  updateQuantity($user_id,$number=1,$cart_id){
+    // $this->db>select
+    // if ($cart_id){
+      
+    // }
+
+    // $this->db->select("*")->wher("")
   // }
 }

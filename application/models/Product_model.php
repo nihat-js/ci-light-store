@@ -16,7 +16,7 @@ class Product_model extends CI_Model
 
   public function getAll()
   {
-    $query = $this->db->get($this->table_name);
+    $query = $this->db->select("*")->get($this->table_name);
     return $query->result();
   }
 
