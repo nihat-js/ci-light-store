@@ -22,7 +22,7 @@
       background-color: #f8f9fa;
       border-radius: 10px;
       width: 90%;
- 
+
     }
 
     table th,
@@ -50,7 +50,7 @@
 <body>
 
   <div class="container">
-    <h1 class="title mb-3"> All  Products </h1>
+    <h1 class="title mb-3"> All Products </h1>
     <table class="table">
 
       <thead>
@@ -74,11 +74,40 @@
       </tbody>
     </table>
 
-      <h2 class="title"> Cart </h2>
+    <h2 class="title"> Cart </h2>
 
-        <?php
-          json_encode($cart);
-        ?>
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th> Title</th>
+          <th> Price </th>
+          <th> Quantity</th>
+          <th> Total </th>
+          <th> Action </th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($cart as $cart) :  ?>
+          <tr>
+            <td> <?= $cart->title ?> </td>
+            <td> <?= $cart->price ?> </td>
+            <td> <?= $cart->cart_quantity ?> </td>
+            <td> <?= $cart->price * $cart->cart_quantity ?>  </td>
+            <td>
+              <button class="btn btn-primary"> Increase </button>
+              <button class="btn btn-primary"> Decrease </button>
+            </td>
+          <tr>
+          <?php endforeach;   ?>
+
+      </tbody>
+    </table>
+
+
+    <?php
+    // echo json_encode($cart);
+    ?>
 
 
   </div>

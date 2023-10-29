@@ -7,43 +7,23 @@ class Cart_model extends CI_Model
   // public $product_id;
   // public $quantity;
 
-  private $table_name = "avh_cart";
+  private $table_cart = "avh_cart";
+  private $table_products = "avh_products";
 
   public function getUserCart($user_id)
   {
-    $this->db->select(["cart_id","product_id","quantity","user_id", ])
+    $this->db->select(["cart_id","title ","avh_cart.quantity as cart_quantity","price"," ","user_id", ])
     ->where("user_id", $user_id)
     ->join("avh_products","avh_cart.product_id = avh_products.product_id ","left");
 
-    $query = $this->db->get($this->table_name);
+    $query = $this->db->get($this->table_cart);
     return $query->result();
   }
 
   
 
-  public function  updateQuantity($number=+1){
+  // public function  updateQuantity($user_id,$cart_id,$number=+1){
 
-  }
-  public function removeProductFromCart(){
-    
-  }
-
-  public function insert($arr)
-  {
-
-    // $this->title    = $_POST['title']; // please read the below note
-    // $this->content  = $_POST['content'];
-    // $this->date     = time();
-
-    // $this->db->insert('entries', $this);
-  }
-
-  public function update_entry()
-  {
-    // $this->title    = $_POST['title'];
-    // $this->content  = $_POST['content'];
-    // $this->date     = time();
-
-    // $this->db->update('entries', $this, array('id' => $_POST['id']));
-  }
+  //   $this->db->select("*")->wher("")
+  // }
 }
