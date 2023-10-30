@@ -37,8 +37,12 @@
       color: #ffffff;
     }
 
-    table tbody tr:nth-child(even) {
-      background-color: #f2f2f2;
+    table tbody tr:nth-child(even) td {
+      /* background-color: #333; */
+    }
+
+    table tbody tr:nth-child(odd) td {
+      /* background-color: #999; */
     }
 
     table tbody tr:hover {
@@ -59,22 +63,31 @@
           <th> Brand Name </th>
           <th> Category </th>
           <th> Price </th>
-        
+
           <!-- <th> Quantity</th> -->
           <th> Action </th>
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($products as $product) :  ?>
+        <?php foreach ($products as $product): ?>
           <tr>
-            <td> <?= $product->title ?> </td>
-            <td> <?= $product->brand_name ?> </td>
-            <td> <?= $product->category_name ?> </td>
-            <td> <?= $product->price ?> </td>
+            <td>
+              <?= $product->title ?>
+            </td>
+            <td>
+              <?= $product->brand_name ?>
+            </td>
+            <td>
+              <?= $product->category_name ?>
+            </td>
+            <td>
+              <?= $product->price ?>
+            </td>
             <!-- // <td> = $product->quantity ?> </td> -->
-            <td> <button class="btn btn-primary" onclick="addToCart(<?= $product->product_id ?>) "> Add To Cart  </button> </td>
+            <td> <button class="btn btn-primary" onclick="addToCart(<?= $product->product_id ?>) "> Add To Cart </button>
+            </td>
           <tr>
-          <?php endforeach;   ?>
+          <?php endforeach; ?>
 
       </tbody>
     </table>
@@ -94,26 +107,43 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($cart as $cart) :  ?>
+        <?php foreach ($cart as $cart): ?>
           <tr>
-            <td> <?= $cart->title ?> </td>
-            <td> <?= $cart->price ?> </td>
-         
-            <td> <?= $cart->cart_quantity ?> </td>
-            <td> <?= $cart->price * $cart->cart_quantity ?>  </td>
             <td>
-              <button class="btn btn-primary" onclick="updateQuantity(<?=$cart->cart_id?>,1)"> Increase </button>
-              <button class="btn btn-primary"  onclick="updateQuantity(<?=$cart->cart_id?>,-1)">   Decrease </button>
+              <?= $cart->title ?>
+            </td>
+            <td>
+              <?= $cart->price ?>
+            </td>
+
+            <td>
+              <?= $cart->cart_quantity ?>
+            </td>
+            <td>
+              <?= $cart->price * $cart->cart_quantity ?>
+            </td>
+            <td>
+              <button class="btn btn-primary" onclick="debounce(updateQuantity(<?= $cart->cart_id ?>,1))"> Increase
+              </button>
+              <button class="btn btn-primary" onclick="debounce(updateQuantity(<?= $cart->cart_id ?>,-1))"> Decrease
+              </button>
             </td>
           <tr>
-          <?php endforeach;   ?>
+          <?php endforeach; ?>
 
       </tbody>
     </table>
 
 
+    <button class="btn btn-secondary" onclick="orderAll()"> Order Now </button>
+    <h2> Orders List </h2>
+    <table>
+
+    </table>
+
+
     <?php
-    echo json_encode($products);
+    // echo json_encode($products);
     ?>
 
 
@@ -121,24 +151,41 @@
 
   <script>
     const baseURL = "/"
-    async function addToCart(productId){
+
+
+    function debounce(func, timeout = 1500) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    async function addToCart(productId) {
       const fd = new FormData()
-      fd.append('productId',productId)
-      fetch(baseURL+"cart/insert_action",{
-        method : "post",
-        body : fd
+      fd.append('productId', productId)
+      fetch(baseURL + "cart/insert_action", {
+        method: "post",
+        body: fd
       }).then(res => console.log(res))
     }
 
-    async function updateQuantity(cartId,payload){
+    async function updateQuantity(cartId, payload) {
       let fd = new FormData();
-      fd.append("cartId",cartId);
-      fd.append("payload",payload);
-      let result = await fetch(baseURL + "cart/update_action",{
-        method : "POST",
-        body : fd,
+      fd.append("cartId", cartId);
+      fd.append("payload", payload);
+      let result = await fetch(baseURL + "cart/update_action", {
+        method: "POST",
+        body: fd,
       })
       console.log(result)
+    }
+
+    async function orderAll(){
+      let res = await fetch(baseURL+"order/order_all",{
+        method : "POST"
+      })
+      console.log(res)
     }
   </script>
 
