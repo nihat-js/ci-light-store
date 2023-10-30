@@ -16,7 +16,11 @@ class Product_model extends CI_Model
 
   public function getAll()
   {
-    $query = $this->db->select("*")->get($this->table_name);
+    $query = $this->db
+    ->select("product_id, title, price, quantity, avh_brands.name as brand_name,  avh_product_categories.name as category_name ")
+    ->join("avh_product_categories","avh_products.category_id = avh_product_categories.category_id","left" )
+    ->join("avh_brands","avh_products.brand_id = avh_brands.brand_id","left" )
+    ->get($this->table_name);
     return $query->result();
   }
 

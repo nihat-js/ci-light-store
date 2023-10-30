@@ -56,8 +56,11 @@
       <thead>
         <tr>
           <th> Title</th>
+          <th> Brand Name </th>
+          <th> Category </th>
           <th> Price </th>
-          <th> Quantity</th>
+        
+          <!-- <th> Quantity</th> -->
           <th> Action </th>
         </tr>
       </thead>
@@ -65,8 +68,10 @@
         <?php foreach ($products as $product) :  ?>
           <tr>
             <td> <?= $product->title ?> </td>
-            <td> <?= $product->quantity ?> </td>
+            <td> <?= $product->brand_name ?> </td>
+            <td> <?= $product->category_name ?> </td>
             <td> <?= $product->price ?> </td>
+            <!-- // <td> = $product->quantity ?> </td> -->
             <td> <button class="btn btn-primary" onclick="addToCart(<?= $product->product_id ?>) "> Add To Cart  </button> </td>
           <tr>
           <?php endforeach;   ?>
@@ -83,6 +88,7 @@
           <th> Title</th>
           <th> Price </th>
           <th> Quantity</th>
+
           <th> Total </th>
           <th> Action </th>
         </tr>
@@ -92,6 +98,7 @@
           <tr>
             <td> <?= $cart->title ?> </td>
             <td> <?= $cart->price ?> </td>
+         
             <td> <?= $cart->cart_quantity ?> </td>
             <td> <?= $cart->price * $cart->cart_quantity ?>  </td>
             <td>
@@ -106,7 +113,7 @@
 
 
     <?php
-    // echo json_encode($cart);
+    echo json_encode($products);
     ?>
 
 
