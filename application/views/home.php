@@ -95,8 +95,8 @@
             <td> <?= $cart->cart_quantity ?> </td>
             <td> <?= $cart->price * $cart->cart_quantity ?>  </td>
             <td>
-              <button class="btn btn-primary"> Increase </button>
-              <button class="btn btn-primary"> Decrease </button>
+              <button class="btn btn-primary" onclick="updateQuantity(<?=$cart->cart_id?>,1)"> Increase </button>
+              <button class="btn btn-primary"  onclick="updateQuantity(<?=$cart->cart_id?>,-1)">   Decrease </button>
             </td>
           <tr>
           <?php endforeach;   ?>
@@ -113,14 +113,25 @@
   </div>
 
   <script>
+    const baseURL = "/ci-light-store/index.php/"
     function addToCart(productId){
-      const baseURL = "/php-apps/light-store/"
       const fd = new FormData()
       fd.append('productId',productId)
       fetch(baseURL+"add_to_cart_action",{
         method : "post",
         body : fd
       }).then(res => console.log(res))
+    }
+
+    async function updateQuantity(cartId,payload){
+      let fd = new FormData();
+      fd.append("cartId",cartId);
+      fd.append("payload",payload);
+      let result = await fetch(baseURL + "cart/update_quantity",{
+        method : "POST",
+        body : fd,
+      })
+      console.log(result)
     }
   </script>
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller
+class Home extends CI_Controller
 {
 
   public function __construct()
@@ -22,13 +22,10 @@ class Welcome extends CI_Controller
     
   }
 
-  public function test(){
-    
+  public function my(){
+    echo 'my::url';
   }
 
-  public function add_to_cart_action(){
-    $product_id = $this->input->post("productId");
-    $this->Cart_model->addToCart(1,$product_id);
-  }
+
 
 }
