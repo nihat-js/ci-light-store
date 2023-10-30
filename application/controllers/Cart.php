@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Zed extends CI_Controller
+class Cart extends CI_Controller
 {
 
   public function __construct()
@@ -14,20 +14,32 @@ class Zed extends CI_Controller
 
   public function index()
   {
-    echo 'index';    
-  }
-  public function add_to_cart_action(){
-    $user_id = 1; // root
-
-    $product_id = $this->input->post("productId");
-    $this->Cart_model->addToCart(1,$product_id);
+    echo 'index';
   }
 
-  public function changeQuantity($payload=+1){
+
+  public function insert_action()
+  {
+    if ($this->input->method(true) !== "POST") {
+      return false;
+    }
     $user_id = 1;
-    $product_id = $this->input->post("cartId");
-    $payload = $this->input->post("paylod");
-    $this->Cart_model->updateQuantity(1,$product_id,$payload);
+    $product_id = $this->input->post("productId");
+    $payload = $this->input->post("payload") ?? 1;
+    $this->Cart_model->insert($user_id, $product_id, $payload);
+  }
+
+
+
+  public function update_action()
+  {
+    if ($this->input->method(true) !== "POST") {
+      return false;
+    }
+    $user_id = 1;
+    $cart_id = $this->input->post("cartId");
+    $payload = $this->input->post("payload");
+    $this->Cart_model->update(1, $cart_id, $payload);
 
   }
 

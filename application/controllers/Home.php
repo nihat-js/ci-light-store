@@ -19,11 +19,10 @@ class Home extends CI_Controller
     $data['products'] = $this->Product_model->getAll();
     $data['cart'] = $this->Cart_model->getUserCart($user_id);
     $this->load->view('home',$data);
-    
   }
 
-  public function my(){
-    echo 'my::url';
+  public function customer(){
+    echo 'aaaaa';
   }
 
 

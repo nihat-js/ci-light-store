@@ -113,11 +113,11 @@
   </div>
 
   <script>
-    const baseURL = "/ci-light-store/index.php/"
-    function addToCart(productId){
+    const baseURL = "/"
+    async function addToCart(productId){
       const fd = new FormData()
       fd.append('productId',productId)
-      fetch(baseURL+"add_to_cart_action",{
+      fetch(baseURL+"cart/insert_action",{
         method : "post",
         body : fd
       }).then(res => console.log(res))
@@ -127,7 +127,7 @@
       let fd = new FormData();
       fd.append("cartId",cartId);
       fd.append("payload",payload);
-      let result = await fetch(baseURL + "cart/update_quantity",{
+      let result = await fetch(baseURL + "cart/update_action",{
         method : "POST",
         body : fd,
       })

@@ -20,14 +20,16 @@ class Cart_model extends CI_Model
     return $query->result();
   }
 
+    
   
-  public function addToCart($user_id,$product_id,$quantity=1){
+  public function insert($user_id,$product_id,$quantity=1){
     $data = [
       "user_id" =>$user_id,
       "product_id" => $product_id,
       "quantity" =>$quantity
     ];
-    $result = $this->db->select("*")
+    $result = $this->db
+    ->select("*")
     ->where("user_id",$user_id)
     ->where("product_id",$product_id)
     ->limit(1)
@@ -36,28 +38,34 @@ class Cart_model extends CI_Model
     if (count($result) > 0){
       return false;
     }
+
     $this->db->insert($this->table_cart,$data);
+    
   }
 
-  public function  updateQuantity($user_id,$cart_id,$payload){
+  public function  update($user_id,$cart_id,$payload){
     $result = $this->db->select("quantity")
     ->where("user_id",$user_id)
     ->where("cart_id",$cart_id)
     ->limit(1)
     ->get($this->table_cart)->row();
     if (!$result->quantity) return false ;
-
-    if ($result->quantity + $payload <= 0){
+    
+    
+    $new_quantity = $result->quantity +  $payload;
+    
+  
+    
+    if ($new_quantity <= 0){
       $this->db
       ->select("")
       ->where("user_id",$user_id)
       ->where("cart_id",$cart_id)
       ->limit(1)
-      ->delete('cart_id');
+      ->delete($this->table_cart);
       return true; // deleted
     }
-
-    $new_quantity = $result->$quantity +  $payload;
+    
 
 
     $this->db
