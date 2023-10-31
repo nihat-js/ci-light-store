@@ -10,6 +10,12 @@ class Order_model extends CI_Model
         $this->load->database();
     }
 
+    public function getUserOrders($user_id){
+        return $this->db
+        ->select("*")
+        ->where('user_id',$user_id)
+        ->get("avh_orders")->result();
+    }
 
     public function orderAll($user_id)
     {
@@ -21,21 +27,21 @@ class Order_model extends CI_Model
 
         $user_id = 1;
         $query = $this->db
-        ->select("c.product_id, user_id, (c.quantity*p.price) as total_price ")
-        ->join("avh_products as p", "c.product_id = p.product_id")
-        ->where("c.user_id", $user_id)
-        ->get('avh_cart c');
+            ->select("c.product_id, user_id, (c.quantity*p.price) as total_price ")
+            ->join("avh_products as p", "c.product_id = p.product_id")
+            ->where("c.user_id", $user_id)
+            ->get('avh_cart c');
 
 
-        $data = $query->result();
+        $data = $query->result_array();
 
         echo json_encode($data);
 
-        $this->db->insert_batch('avh_orders',$data);
+        $this->db->insert_batch('avh_orders', $data);
         $this->db
-        ->select("")
-        ->where("user_id",$user_id)
-        ->delete('avh_cart');
+            ->select("")
+            ->where("user_id", $user_id)
+            ->delete('avh_cart');
     }
 
     //   public function getAll()

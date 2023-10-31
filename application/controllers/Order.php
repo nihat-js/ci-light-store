@@ -19,7 +19,6 @@ class Order extends CI_Controller
     $result = $this->Order_model->orderAll($user_id);
     echo $result;
   }
-
   public function customer(){
     echo 'aaaaa';
   }
